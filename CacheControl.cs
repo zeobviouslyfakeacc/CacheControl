@@ -97,7 +97,7 @@ namespace CacheControl {
 				return;
 			}
 
-			RandomSpawnObject spawner = GameObject.Find(SPAWNER_NAME)?.GetComponent<RandomSpawnObject>();
+			RandomSpawnObject spawner = GameObject.Find(SPAWNER_NAME)?.GetComponentInChildren<RandomSpawnObject>();
 			if (spawner) {
 				int numberOfCaches = Math.Max(0, uConsole.GetInt());
 				SetNumCachesToSpawn(spawner, numberOfCaches);
