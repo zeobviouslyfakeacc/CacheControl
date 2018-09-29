@@ -114,12 +114,18 @@ namespace CacheControl {
 			spawner.DisableAll();
 
 			// Then re-enable some, moving around the spawner to modify the seed that ActivateRandomObject uses
+			// and changing the spawner's name so we don't activate our patch
 			Vector3 oldPos = spawner.transform.localPosition;
+			string oldName = spawner.gameObject.name;
+
 			try {
 				spawner.transform.Translate(UnityEngine.Random.onUnitSphere);
+				spawner.gameObject.name = "Temp";
+
 				AccessTools.Method(typeof(RandomSpawnObject), "ActivateRandomObject").Invoke(spawner, new object[0]);
 			} finally {
 				spawner.transform.localPosition = oldPos;
+				spawner.gameObject.name = oldName;
 			}
 		}
 	}
