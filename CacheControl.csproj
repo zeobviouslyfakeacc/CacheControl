@@ -40,7 +40,9 @@
   <ItemGroup>
     <Compile Include="CacheControl.cs" />
     <Compile Include="CacheSettings.cs" />
+    <Compile Include="CacheSettingsGUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RerollCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

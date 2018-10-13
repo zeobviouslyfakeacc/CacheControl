@@ -5,7 +5,7 @@ using ModSettings;
 using UnityEngine;
 
 namespace CacheControl {
-	internal class CacheControl {
+	internal static class CacheControl {
 
 		private const string SAVE_FILE_NAME = "MOD_CacheControl";
 		private const string SPAWNER_NAME = "PrepperHatch";
@@ -13,10 +13,11 @@ namespace CacheControl {
 		private static CacheSettings settings;
 
 		public static void OnLoad() {
-			settings = new CacheSettings();
-			settings.AddToCustomModeMenu(Position.BelowGear);
+			CacheSettingsGUI settingsGUI = new CacheSettingsGUI();
+			settings = settingsGUI.confirmedSettings;
+			settingsGUI.AddToCustomModeMenu(Position.BelowGear);
 
-			uConsole.RegisterCommand("force_reroll_caches", ForceRerollCaches);
+			uConsole.RegisterCommand("force_reroll_caches", RerollCommand.ForceRerollCaches);
 
 			Version version = Assembly.GetExecutingAssembly().GetName().Version;
 			Debug.Log("[CacheControl] Version " + version + " loaded!");
@@ -43,8 +44,6 @@ namespace CacheControl {
 				} else {
 					settings.enabled = false;
 				}
-
-				settings.RefreshFieldsVisible();
 			}
 		}
 
@@ -82,51 +81,28 @@ namespace CacheControl {
 			}
 		}
 
-		private static void SetNumCachesToSpawn(RandomSpawnObject spawner, int numCachesToSpawn) {
+		internal static RandomSpawnObject FindCacheSpawner() {
+			return GameObject.Find(SPAWNER_NAME)?.GetComponentInChildren<RandomSpawnObject>();
+		}
+
+		internal static void SetNumCachesToSpawn(RandomSpawnObject spawner, int numCachesToSpawn) {
 			spawner.m_NumObjectsToEnablePilgrim = numCachesToSpawn;
 			spawner.m_NumObjectsToEnableVoyageur = numCachesToSpawn;
 			spawner.m_NumObjectsToEnableStalker = numCachesToSpawn;
 			spawner.m_NumObjectsToEnableInterloper = numCachesToSpawn;
 		}
 
-		private static void ForceRerollCaches() {
-			if (uConsole.GetNumParameters() != 1 || !uConsole.NextParameterIsInt()) {
-				Debug.Log("  Usage: force_reroll_caches NumberOfCaches");
-				Debug.Log("  Randomly activates 'NumberOfCaches' caches in the current scene.");
-				Debug.Log("  Warning: This can prevent access to previously discovered caches!");
-				return;
+		// RandomBinomial ~ Binomial(n, p)
+		// Could implement this properly using an inverse binomial distribution, but for small n,
+		// this is plenty fast while being trivial to implement.
+		internal static int RandomBinomial(int n, float p) {
+			int result = 0;
+			for (int i = 0; i < n; ++i) {
+				if (Utils.RollChance(p)) {
+					++result;
+				}
 			}
-
-			RandomSpawnObject spawner = GameObject.Find(SPAWNER_NAME)?.GetComponentInChildren<RandomSpawnObject>();
-			if (spawner) {
-				int numberOfCaches = Math.Max(0, uConsole.GetInt());
-				SetNumCachesToSpawn(spawner, numberOfCaches);
-				RerollSpawner(spawner);
-
-				Debug.Log("  Successfully modified and rerolled cache spawner!");
-			} else {
-				Debug.LogError("  Error: Could not find a cache spawner in the current scene.");
-			}
-		}
-
-		private static void RerollSpawner(RandomSpawnObject spawner) {
-			// First disable all
-			spawner.DisableAll();
-
-			// Then re-enable some, moving around the spawner to modify the seed that ActivateRandomObject uses
-			// and changing the spawner's name so we don't activate our patch
-			Vector3 oldPos = spawner.transform.localPosition;
-			string oldName = spawner.gameObject.name;
-
-			try {
-				spawner.transform.Translate(UnityEngine.Random.onUnitSphere);
-				spawner.gameObject.name = "Temp";
-
-				AccessTools.Method(typeof(RandomSpawnObject), "ActivateRandomObject").Invoke(spawner, new object[0]);
-			} finally {
-				spawner.transform.localPosition = oldPos;
-				spawner.gameObject.name = oldName;
-			}
+			return result;
 		}
 	}
 }
