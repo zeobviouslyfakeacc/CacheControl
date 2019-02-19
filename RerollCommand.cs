@@ -23,7 +23,7 @@ namespace CacheControl {
 			int cachesToSpawn;
 
 			if (int.TryParse(arg, out int num)) {
-				cachesToSpawn = ClampInt(uConsole.GetInt(), 0, totalCaches);
+				cachesToSpawn = ClampInt(num, 0, totalCaches);
 			} else if (arg.EndsWith("%") && float.TryParse(arg.Substring(0, arg.Length - 1), out float chance)) {
 				chance = Mathf.Clamp(chance, 0f, 100f);
 				cachesToSpawn = CacheControl.RandomBinomial(totalCaches, chance);
