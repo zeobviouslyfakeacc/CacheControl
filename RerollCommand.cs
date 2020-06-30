@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Harmony;
 using UnityEngine;
 
 namespace CacheControl {
@@ -70,7 +69,7 @@ namespace CacheControl {
 				spawner.transform.Translate(UnityEngine.Random.onUnitSphere);
 				spawner.gameObject.name = "Temp";
 
-				AccessTools.Method(typeof(RandomSpawnObject), "ActivateRandomObject").Invoke(spawner, new object[0]);
+				spawner.ActivateRandomObject();
 			} finally {
 				spawner.transform.localPosition = oldPos;
 				spawner.gameObject.name = oldName;

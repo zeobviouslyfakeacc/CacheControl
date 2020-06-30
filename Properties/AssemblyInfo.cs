@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using MelonLoader;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("CacheControl")]
@@ -13,3 +14,5 @@ using System.Runtime.InteropServices;
 [assembly: Guid("57d3428e-056b-4294-a596-19819cf2631f")]
 [assembly: AssemblyVersion("1.3.1.0")]
 [assembly: AssemblyFileVersion("1.3.1.0")]
+[assembly: MelonModInfo(typeof(CacheControl.CacheControl), "CacheControl", "1.3.1", "zeobviouslyfakeacc")]
+[assembly: MelonModGame("Hinterland", "TheLongDark")]

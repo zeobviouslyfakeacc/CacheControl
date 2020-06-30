@@ -1,26 +1,26 @@
 ﻿using System;
-using System.Reflection;
 using Harmony;
+using MelonLoader;
+using MelonLoader.TinyJSON;
 using ModSettings;
 using UnityEngine;
 
 namespace CacheControl {
-	internal static class CacheControl {
+	internal class CacheControl : MelonMod {
 
 		private const string SAVE_FILE_NAME = "MOD_CacheControl";
 		private const string SPAWNER_NAME = "PrepperHatch";
 
 		private static CacheSettings settings;
 
-		public static void OnLoad() {
+		public override void OnApplicationStart() {
 			CacheSettingsGUI settingsGUI = new CacheSettingsGUI();
 			settings = settingsGUI.confirmedSettings;
 			settingsGUI.AddToCustomModeMenu(Position.BelowGear);
 
-			uConsole.RegisterCommand("force_reroll_caches", RerollCommand.ForceRerollCaches);
+			uConsole.RegisterCommand("force_reroll_caches", new Action(RerollCommand.ForceRerollCaches));
 
-			Version version = Assembly.GetExecutingAssembly().GetName().Version;
-			Debug.Log("[CacheControl] Version " + version + " loaded!");
+			Debug.Log($"[{InfoAttribute.Name}] version {InfoAttribute.Version} loaded!");
 		}
 
 		[HarmonyPatch(typeof(SaveGameSystem), "SaveGlobalData", new Type[] { typeof(SaveSlotType), typeof(string) })]
@@ -29,7 +29,7 @@ namespace CacheControl {
 				if (!IsEnabled())
 					return;
 
-				string data = JsonUtility.ToJson(settings);
+				string data = JSON.Dump(settings, EncodeOptions.NoTypeHints);
 				SaveGameSlots.SaveDataToSlot(gameMode, SaveGameSystem.m_CurrentEpisode, SaveGameSystem.m_CurrentGameId, name, SAVE_FILE_NAME, data);
 			}
 		}
@@ -40,7 +40,7 @@ namespace CacheControl {
 				string data = SaveGameSlots.LoadDataFromSlot(name, SAVE_FILE_NAME);
 
 				if (!string.IsNullOrEmpty(data)) {
-					JsonUtility.FromJsonOverwrite(data, settings);
+					JSON.Load(data).Populate(settings);
 				} else {
 					settings.enabled = false;
 				}
