@@ -6,17 +6,12 @@ A mod for The Long Dark that lets you decide how many Prepper Caches spawn in cu
 
 ## Installation
 
-1. If you haven't done so already, install the [Mod Loader](https://github.com/zeobviouslyfakeacc/ModLoaderInstaller)
-2. Install the mod automatically by using [WulfMarius's Mod-Installer](https://github.com/WulfMarius/Mod-Installer/releases)
-
-or
-
-1. If you haven't done so already, install the [Mod Loader](https://github.com/zeobviouslyfakeacc/ModLoaderInstaller)
-2. If you haven't done so already, install [ModSettings](https://github.com/zeobviouslyfakeacc/ModSettings) v1.4 or newer
+1. If you haven't done so already, install MelonLoader by downloading and running [MelonLoader.Installer.exe](https://github.com/HerpDerpinstine/MelonLoader/releases/latest/download/MelonLoader.Installer.exe)
+2. If you haven't done so already, install [ModSettings](https://github.com/zeobviouslyfakeacc/ModSettings) v1.6 or newer
 3. Download the latest version of `CacheControl.dll` from the [releases page](https://github.com/zeobviouslyfakeacc/CacheControl/releases)
-4. Move `CacheControl.dll` into the mods folder in your TLD install directory
+4. Move `CacheControl.dll` into the Mods folder in your TLD install directory
 
-Alternatively, you can download `CacheControl_with_ModSettings.zip` and extract it into your mods directory.
+Alternatively, you can download `CacheControl_with_ModSettings.zip` and extract it into your Mods directory.
 
 ## Instructions
 
