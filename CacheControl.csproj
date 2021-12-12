@@ -52,9 +52,6 @@
     <Reference Include="UnhollowerBaseLib">
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnhollowerRuntimeLib">
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <Private>False</Private>
     </Reference>
