@@ -75,6 +75,10 @@ namespace CacheControl {
 					Debug.Log("[CacheControl] Modified spawner in PV to spawn " + settings.numCachesPV + " caches");
 					SetNumCachesToSpawn(spawner, settings.numCachesPV);
 					break;
+				case "BlackrockRegion":
+					Debug.Log("[CacheControl] Modified spawner in BR to spawn " + settings.numCachesBR + " caches");
+					SetNumCachesToSpawn(spawner, settings.numCachesBR);
+					break;
 				default:
 					Debug.Log("[CacheControl] Cache spawner in unknown scene " + sceneName);
 					break;

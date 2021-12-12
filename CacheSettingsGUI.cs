@@ -7,6 +7,7 @@ namespace CacheControl {
 
 		private const int CACHES_IN_ML = 9;
 		private const int CACHES_IN_PV = 9;
+		private const int CACHES_IN_BR = 9;
 
 		internal enum SpawnAlgorithm {
 			FixedNumber, SpawnChance
@@ -32,6 +33,10 @@ namespace CacheControl {
 		[Slider(0, CACHES_IN_PV)]
 		public int numCachesPV = 0;
 
+		[Name("Number of caches in Blackrock")]
+		[Slider(0, CACHES_IN_BR)]
+		public int numCachesBR = 0;
+
 		[Name("Cache spawn chance in Mystery Lake")]
 		[Slider(0, 100, NumberFormat = "{0:F0}%")]
 		public float spawnChanceML = 0;
@@ -39,6 +44,10 @@ namespace CacheControl {
 		[Name("Cache spawn chance in Pleasant Valley")]
 		[Slider(0, 100, NumberFormat = "{0:F0}%")]
 		public float spawnChancePV = 0;
+
+		[Name("Cache spawn chance in Blackrock")]
+		[Slider(0, 100, NumberFormat = "{0:F0}%")]
+		public float spawnChanceBR = 0;
 
 		internal CacheSettingsGUI() {
 			RefreshFieldsVisible();
@@ -54,8 +63,10 @@ namespace CacheControl {
 			SetFieldVisible(nameof(algorithm), enabled);
 			SetFieldVisible(nameof(numCachesML), enabled && algorithm == SpawnAlgorithm.FixedNumber);
 			SetFieldVisible(nameof(numCachesPV), enabled && algorithm == SpawnAlgorithm.FixedNumber);
+			SetFieldVisible(nameof(numCachesBR), enabled && algorithm == SpawnAlgorithm.FixedNumber);
 			SetFieldVisible(nameof(spawnChanceML), enabled && algorithm == SpawnAlgorithm.SpawnChance);
 			SetFieldVisible(nameof(spawnChancePV), enabled && algorithm == SpawnAlgorithm.SpawnChance);
+			SetFieldVisible(nameof(spawnChanceBR), enabled && algorithm == SpawnAlgorithm.SpawnChance);
 		}
 
 		protected override void OnConfirm() {
@@ -65,10 +76,12 @@ namespace CacheControl {
 				case SpawnAlgorithm.FixedNumber:
 					confirmedSettings.numCachesML = numCachesML;
 					confirmedSettings.numCachesPV = numCachesPV;
+					confirmedSettings.numCachesBR = numCachesBR;
 					break;
 				case SpawnAlgorithm.SpawnChance:
 					confirmedSettings.numCachesML = CacheControl.RandomBinomial(CACHES_IN_ML, spawnChanceML);
 					confirmedSettings.numCachesPV = CacheControl.RandomBinomial(CACHES_IN_PV, spawnChancePV);
+					confirmedSettings.numCachesBR = CacheControl.RandomBinomial(CACHES_IN_BR, spawnChanceBR);
 					break;
 				default:
 					throw new NotImplementedException();
