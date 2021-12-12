@@ -20,7 +20,7 @@ namespace CacheControl {
 
 			uConsole.RegisterCommand("force_reroll_caches", new Action(RerollCommand.ForceRerollCaches));
 
-			Debug.Log($"[{InfoAttribute.Name}] version {InfoAttribute.Version} loaded!");
+			Debug.Log($"[{Info.Name}] version {Info.Version} loaded!");
 		}
 
 		[HarmonyPatch(typeof(SaveGameSystem), "SaveGlobalData", new Type[] { typeof(SaveSlotType), typeof(string) })]

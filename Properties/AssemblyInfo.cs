@@ -14,5 +14,5 @@ using System.Runtime.InteropServices;
 [assembly: Guid("57d3428e-056b-4294-a596-19819cf2631f")]
 [assembly: AssemblyVersion("1.4.0.0")]
 [assembly: AssemblyFileVersion("1.4.0.0")]
-[assembly: MelonModInfo(typeof(CacheControl.CacheControl), "CacheControl", "1.4", "zeobviouslyfakeacc")]
-[assembly: MelonModGame("Hinterland", "TheLongDark")]
+[assembly: MelonInfo(typeof(CacheControl.CacheControl), "CacheControl", "1.4", "zeobviouslyfakeacc")]
+[assembly: MelonGame("Hinterland", "TheLongDark")]
